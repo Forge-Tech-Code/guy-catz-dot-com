@@ -482,7 +482,7 @@ re-point the navbar and the footer together if it moves again.
 - **Approach** — `src/sections/Approach.jsx` — the `paragraphs` array (verbatim)
 - **FAQ** — `src/sections/FAQ.jsx` — the `faqs` array (mirrored in the `FAQPage` JSON-LD in `index.html`)
 - **Testimonials** — `src/sections/Reviews.jsx` — `featured`, `reviews`, and
-  `moreReviews` (Chelsea, Andrija R, Mario — multi-paragraph, no ages given)
+  `moreReviews` (Chelsea, Andrija R, Mario, Scar S. — multi-paragraph; only Scar gave an age)
 - **Social links** — `src/siteInfo.js` (`instagram`, `yelp`, `linkedin`), rendered
   in the footer only when set, and mirrored in the JSON-LD `sameAs`
 - **The Care Hero award** — `src/sections/Reviews.jsx` — the `award` object
@@ -710,7 +710,7 @@ not on every deploy.
 
 ## What's placeholder / not yet real
 
-Real, supplied by the practice: the practice name and doctor, his bio and credentials, the approach copy, the specialty and treatment lists, all six testimonials, the Care Hero award, its certificate photograph and the two patient comments quoted on it, the logo, and the photography — five treatment-room frames in the gallery, the feature photo in Approach, and two portraits. `public/og-image.jpg` is cut from the same set.
+Real, supplied by the practice: the practice name and doctor, his bio and credentials, the approach copy, the specialty and treatment lists, all seven testimonials, the Care Hero award, its certificate photograph and the two patient comments quoted on it, the logo, and the photography — five treatment-room frames in the gallery, the feature photo in Approach, and two portraits. `public/og-image.jpg` is cut from the same set.
 
 The two portraits are `meet-the-doctor` (seated at the treatment table) and
 `dr-guy-catz-headshot` (the tighter frame). There is only one portrait slot on
@@ -754,7 +754,7 @@ sentence came back at the client's instruction and in his words; it is the only
 out-of-network billing detail he has committed to, and it sits at the end of
 the insurance paragraph in both places (see "Insurance wording" above).
 
-One thing to raise with the client rather than fix in code: **patient testimonials in healthcare marketing usually need written, signed permission** — all six of them now, and Mario's also describes his girlfriend's condition, so hers is the consent that matters there. Two of the first three describe care given at a rehab hospital. Worth confirming the release before launch. The Care Hero award is the same conversation twice over — the two comments on it are patients', and the award itself is the hospital's to publish, so their sign-off belongs alongside the patients'.
+One thing to raise with the client rather than fix in code: **patient testimonials in healthcare marketing usually need written, signed permission** — all seven of them now, and Mario's also describes his girlfriend's condition, so hers is the consent that matters there. Two of the first three describe care given at a rehab hospital. Worth confirming the release before launch. The Care Hero award is the same conversation twice over — the two comments on it are patients', and the award itself is the hospital's to publish, so their sign-off belongs alongside the patients'.
 
 The certificate as supplied is a rainbow-gradient graphic carrying the
 hospital's own lettering and a photo of him. It was kept off the page for a

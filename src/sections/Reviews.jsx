@@ -25,8 +25,8 @@ const reviews = [
 ]
 
 // The second set, added from the client's website-edits document. Verbatim,
-// paragraph breaks included (each string is one of the patient's paragraphs);
-// no ages were given, so none are shown.
+// paragraph breaks included (each string is one of the patient's paragraphs).
+// Only Scar gave an age; the others show none.
 const moreReviews = [
   {
     name: 'Chelsea',
@@ -50,6 +50,14 @@ const moreReviews = [
       `We had a great experience here helping my girlfriend with her plantar fasciitis. The therapist was extremely informative and took the time to explain everything clearly, including what we should be doing, what we should avoid, and why certain things were important for her recovery.`,
       `He was incredibly patient with us and made sure we understood everything before we left. The guidance and treatment made a significant difference, and we are very grateful for all the help.`,
       `We would definitely come back and highly recommend this place to anyone looking for knowledgeable, patient, and caring physical therapy!`,
+    ],
+  },
+  {
+    name: 'Scar S.',
+    age: 29,
+    paragraphs: [
+      `I highly recommend Dr. Catz! After ACL surgery, I was dealing with a persistent issue that wasn't improving as much as I had hoped. He took the time to understand my concerns, thoroughly assessed the problem, and developed a comprehensive treatment plan that made a real difference. Thanks to his expertise, guidance, and attention to detail, I saw significant improvement in an issue in a short amount of time.`,
+      `What really sets him apart is how much he genuinely cares about his patients. He even took the time to check up on me outside of our sessions, which speaks volumes about his dedication and commitment to my recovery. That level of personal attention and care truly differentiated him and made me feel supported throughout the process. He is knowledgeable, professional, and genuinely invested in helping his patients get better. I'm very grateful for his help, and he will absolutely be my go-to physical therapist if I ever experience any other issues in the future. If you're looking for someone who is skilled, attentive, and willing to go above and beyond for his patients, I cannot recommend him highly enough!`,
     ],
   },
 ]
@@ -148,9 +156,10 @@ export default function Reviews() {
           </Reveal>
         </div>
 
-        {/* The second set — three across at `lg`, stacked below it. Same
-            quiet treatment as Lina's: ochre mark, cream/80 body. */}
-        <div className="grid lg:grid-cols-3 gap-x-10 gap-y-12 mt-16 sm:mt-20 items-start">
+        {/* The second set — two by two from `md`, stacked below it (four
+            quotes, so three across left one orphaned). Same quiet treatment
+            as Lina's: ochre mark, cream/80 body. */}
+        <div className="grid md:grid-cols-2 gap-x-12 gap-y-12 mt-16 sm:mt-20 items-start">
           {moreReviews.map(({ name, age, paragraphs }, i) => (
             <Reveal key={name} delay={i * 110}>
               <figure>
