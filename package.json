@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite-react-ssg build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test \"tests/*.test.mjs\""
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -15,6 +16,8 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
+    "linkedom": "0.18.13",
+    "playwright": "1.56.1",
     "postcss": "^8.4.47",
     "sharp": "^0.35.3",
     "tailwindcss": "^3.4.13",

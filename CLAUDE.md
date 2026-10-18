@@ -18,6 +18,32 @@ npm run build    # production build → dist/
 npm run preview  # serve dist/ locally
 ```
 
+## Tests
+
+```bash
+npm run build && npm test   # the tests read the BUILT site, so build first
+```
+
+`.github/workflows/ci.yml` runs exactly that on every pull request (and on pushes to `main`), as the
+**Build and test** check — the one to make required for merging. Plain `node --test`, no framework:
+
+| file | what it checks |
+|---|---|
+| `tests/general.test.mjs` | the same on every site: title, description, canonical, robots, `lang`, one `h1`, heading order, alt text, duplicate ids, dead `#links`, every local file the HTML or CSS references exists, JSON-LD parses and its `@id`s resolve, Open Graph, `noopener`, robots.txt, sitemap, CNAME, 404 |
+| `tests/browser.test.mjs` | headless Chromium: the page hydrates with no console errors or failed requests, and never scrolls sideways at 320 / 390 / 768 / 1280px |
+| `tests/page.test.mjs` | this site's own rules, most of them from this file — see the test names |
+| `tests/site.config.mjs` | the only per-site input to the two shared files: origin, pages, languages |
+| `tests/lib.mjs` | helpers: load a built page as a DOM (`linkedom`), read JSON-LD, serve `dist/` |
+
+The browser tests block every request to another origin, so they never depend on the network. Locally,
+`CHROMIUM_PATH=/path/to/chromium npm test` uses an existing Chromium instead of `npx playwright install
+chromium`.
+
+**When a test fails, fix the page, not the test** — unless the rule itself changed, in which case change
+the test and this file in the same commit.
+
+Two fixes came out of writing them: the FAQ answers are now always in the HTML (hidden while closed, rather than not rendered), so the `FAQPage` JSON-LD describes text that is really on the page; and `.btn-primary-light` no longer hovers to `white/95` — it steps down to `mist` (fern text 5.5:1). P05 fails if white comes back.
+
 ## Stack
 
 - **React 18** — UI
