@@ -49,7 +49,7 @@ Two fixes came out of writing them: the FAQ answers are now always in the HTML (
 - **React 19** — UI
 - **Vite 8** — build tool, `base: './'` in `vite.config.js` (relative, so the build runs from any mount point)
 - **vite-react-ssg** — prerenders the page to static HTML at build time (pinned exactly, currently `0.9.2`; its own peer range decides the Vite and React versions — check `npm view vite-react-ssg peerDependencies` before a major bump)
-- **Tailwind CSS 3** — styling via utility classes + component layer in `src/index.css`
+- **Tailwind CSS 3** — styling via utility classes + component layer in `src/index.css`. Held on 3.4 on purpose: v4 drops Safari before 16.4, and a trial upgrade (2026-10-18) changed line heights and wrapping, so it is a design task, not a version bump. `npm audit` flags Tailwind 3's build-time file-watching dependencies (braces/micromatch, postcss-selector-parser); they only ever see this repo's own files and never ship to the browser, and the only fix is v4.
 - **No router** — single HTML page, anchor links (`#practice`, `#about`, etc.)
 
 ## Project layout
