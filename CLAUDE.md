@@ -18,12 +18,38 @@ npm run build    # production build → dist/
 npm run preview  # serve dist/ locally
 ```
 
+## Tests
+
+```bash
+npm run build && npm test   # the tests read the BUILT site, so build first
+```
+
+`.github/workflows/ci.yml` runs exactly that on every pull request (and on pushes to `main`), as the
+**Build and test** check — the one to make required for merging. Plain `node --test`, no framework:
+
+| file | what it checks |
+|---|---|
+| `tests/general.test.mjs` | the same on every site: title, description, canonical, robots, `lang`, one `h1`, heading order, alt text, duplicate ids, dead `#links`, every local file the HTML or CSS references exists, JSON-LD parses and its `@id`s resolve, Open Graph, `noopener`, robots.txt, sitemap, CNAME, 404 |
+| `tests/browser.test.mjs` | headless Chromium: the page hydrates with no console errors or failed requests, and never scrolls sideways at 320 / 390 / 768 / 1280px |
+| `tests/page.test.mjs` | this site's own rules, most of them from this file — see the test names |
+| `tests/site.config.mjs` | the only per-site input to the two shared files: origin, pages, languages |
+| `tests/lib.mjs` | helpers: load a built page as a DOM (`linkedom`), read JSON-LD, serve `dist/` |
+
+The browser tests block every request to another origin, so they never depend on the network. Locally,
+`CHROMIUM_PATH=/path/to/chromium npm test` uses an existing Chromium instead of `npx playwright install
+chromium`.
+
+**When a test fails, fix the page, not the test** — unless the rule itself changed, in which case change
+the test and this file in the same commit.
+
+Two fixes came out of writing them: the FAQ answers are now always in the HTML (hidden while closed, rather than not rendered), so the `FAQPage` JSON-LD describes text that is really on the page; and `.btn-primary-light` no longer hovers to `white/95` — it steps down to `mist` (fern text 5.5:1). P05 fails if white comes back.
+
 ## Stack
 
-- **React 18** — UI
-- **Vite 5** — build tool, `base: './'` in `vite.config.js` (relative, so the build runs from any mount point)
-- **vite-react-ssg** — prerenders the page to static HTML at build time (pinned to `0.9.1`; `0.9.2+` requires Vite 6)
-- **Tailwind CSS 3** — styling via utility classes + component layer in `src/index.css`
+- **React 19** — UI
+- **Vite 8** — build tool, `base: './'` in `vite.config.js` (relative, so the build runs from any mount point)
+- **vite-react-ssg** — prerenders the page to static HTML at build time (pinned exactly, currently `0.9.2`; its own peer range decides the Vite and React versions — check `npm view vite-react-ssg peerDependencies` before a major bump)
+- **Tailwind CSS 3** — styling via utility classes + component layer in `src/index.css`. Held on 3.4 on purpose: v4 drops Safari before 16.4, and a trial upgrade (2026-10-18) changed line heights and wrapping, so it is a design task, not a version bump. `npm audit` flags Tailwind 3's build-time file-watching dependencies (braces/micromatch, postcss-selector-parser); they only ever see this repo's own files and never ship to the browser, and the only fix is v4.
 - **No router** — single HTML page, anchor links (`#practice`, `#about`, etc.)
 
 ## Project layout
@@ -569,8 +595,8 @@ photo becomes a small ladder of files, not one file.
 ## Deployment
 
 - **GitHub Pages**: push to `main` triggers `.github/workflows/deploy.yml`
-  - Actions pinned to exact versions: `checkout@v6.0.3`, `setup-node@v6.4.0`, `configure-pages@v6.0.0`, `upload-pages-artifact@v5.0.0`, `deploy-pages@v5.0.0`
-  - Node 26, `npm ci`, `npm run build`, artifact from `dist/`
+  - Actions pinned to exact versions: `checkout@v7.0.1`, `setup-node@v7.1.0`, `configure-pages@v6.0.0`, `upload-pages-artifact@v5.0.0`, `deploy-pages@v5.0.1`
+  - Node from `.nvmrc` (26 — the newest line; `engines` says the same), `npm ci`, `npm run build`, artifact from `dist/`
   - Enable at: Settings → Pages → Source → GitHub Actions
   - **`base` is `./`** — a relative base, so the same build works both at a custom-domain root (`guycatz.com/`) and under project pages (`xarlos89.github.io/guy-catz-dot-com/`). This is why the `@font-face` `url()`s are `../fonts/…` (the CSS lands in `/assets/`) and the `index.html` preloads are `./fonts/…`. **Absolute `/…` asset paths silently 404 under the sub-path** — keep new references relative. The photography did exactly this and 404'd on the `github.io` URL; everything in `public/` now goes through `asset()` / `responsivePhoto()` in `src/images.js`, which emit `./images/…`. Note `import.meta.env.BASE_URL` is **not** the fix — Vite resolves it to `/` for a relative base
   - `configure-pages` runs with `enablement: true`, so the first successful run switches Pages on itself. If it lacks permission, enable it by hand: Settings → Pages → Source → GitHub Actions

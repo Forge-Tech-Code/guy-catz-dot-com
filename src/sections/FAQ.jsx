@@ -41,7 +41,7 @@ const faqs = [
   },
 ]
 
-function FAQItem({ q, a }) {
+function FAQItem({ q, a, id }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -49,6 +49,7 @@ function FAQItem({ q, a }) {
       <button
         onClick={() => setOpen(!open)}
         aria-expanded={open}
+        aria-controls={`faq-answer-${id}`}
         className="w-full flex items-center justify-between gap-6 py-6 text-left group"
       >
         <span className="font-serif text-lg sm:text-xl text-ink leading-snug group-hover:text-fern transition-colors duration-300">
@@ -65,9 +66,17 @@ function FAQItem({ q, a }) {
           </svg>
         </span>
       </button>
-      {open && (
-        <p className="font-sans text-[15px] text-ink-soft leading-[1.85] pb-7 pr-12 -mt-1 max-w-2xl">{a}</p>
-      )}
+      {/* The answer is always in the HTML and only hidden while closed, so the
+          prerendered page carries every answer — crawlers read them, and the
+          FAQPage structured data in index.html describes text that is really
+          on the page. */}
+      <p
+        id={`faq-answer-${id}`}
+        hidden={!open}
+        className="font-sans text-[15px] text-ink-soft leading-[1.85] pb-7 pr-12 -mt-1 max-w-2xl"
+      >
+        {a}
+      </p>
     </div>
   )
 }
@@ -84,8 +93,8 @@ export default function FAQ() {
 
           <Reveal delay={110}>
             <div>
-              {faqs.map(({ q, a }) => (
-                <FAQItem key={q} q={q} a={a} />
+              {faqs.map(({ q, a }, i) => (
+                <FAQItem key={q} q={q} a={a} id={i} />
               ))}
             </div>
           </Reveal>

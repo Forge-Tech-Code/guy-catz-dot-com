@@ -151,12 +151,14 @@
   }
 
   /* The dark-band primary. Terracotta on `fern` sits at 1.4:1 — the pill
-     all but disappears — so on `fern` the primary inverts to cream. */
+     all but disappears — so on `fern` the primary inverts to cream. Its hover
+     steps DOWN to mist (fern text 5.5:1) rather than up towards white —
+     nothing on this page is white, and tests/page.test.mjs checks it. */
   .btn-primary-light {
     @apply inline-flex items-center justify-center gap-2.5 px-8 py-3.5
            bg-cream text-fern font-sans font-medium text-sm
            rounded-full shadow-lift
-           transition-all duration-500 ease-out hover:bg-white/95;
+           transition-all duration-500 ease-out hover:bg-mist hover:shadow-deep;
   }
 
   .btn-ghost-light {

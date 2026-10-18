@@ -6,19 +6,25 @@
   "scripts": {
     "dev": "vite",
     "build": "vite-react-ssg build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test \"tests/*.test.mjs\""
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.1",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
-    "sharp": "^0.35.3",
-    "tailwindcss": "^3.4.13",
-    "vite": "^5.4.8",
-    "vite-react-ssg": "0.9.1"
+    "@vitejs/plugin-react": "^6.1.2",
+    "autoprefixer": "^10.6.1",
+    "linkedom": "0.18.13",
+    "playwright": "1.64.1",
+    "postcss": "^8.5.31",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^3.4.19",
+    "vite": "^8.3.4",
+    "vite-react-ssg": "0.9.2"
+  },
+  "engines": {
+    "node": ">=26"
   }
 }
