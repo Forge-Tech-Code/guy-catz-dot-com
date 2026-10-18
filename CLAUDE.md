@@ -46,9 +46,9 @@ Two fixes came out of writing them: the FAQ answers are now always in the HTML (
 
 ## Stack
 
-- **React 18** — UI
-- **Vite 5** — build tool, `base: './'` in `vite.config.js` (relative, so the build runs from any mount point)
-- **vite-react-ssg** — prerenders the page to static HTML at build time (pinned to `0.9.1`; `0.9.2+` requires Vite 6)
+- **React 19** — UI
+- **Vite 8** — build tool, `base: './'` in `vite.config.js` (relative, so the build runs from any mount point)
+- **vite-react-ssg** — prerenders the page to static HTML at build time (pinned exactly, currently `0.9.2`; its own peer range decides the Vite and React versions — check `npm view vite-react-ssg peerDependencies` before a major bump)
 - **Tailwind CSS 3** — styling via utility classes + component layer in `src/index.css`
 - **No router** — single HTML page, anchor links (`#practice`, `#about`, etc.)
 
@@ -595,8 +595,8 @@ photo becomes a small ladder of files, not one file.
 ## Deployment
 
 - **GitHub Pages**: push to `main` triggers `.github/workflows/deploy.yml`
-  - Actions pinned to exact versions: `checkout@v6.0.3`, `setup-node@v6.4.0`, `configure-pages@v6.0.0`, `upload-pages-artifact@v5.0.0`, `deploy-pages@v5.0.0`
-  - Node 26, `npm ci`, `npm run build`, artifact from `dist/`
+  - Actions pinned to exact versions: `checkout@v7.0.1`, `setup-node@v7.1.0`, `configure-pages@v6.0.0`, `upload-pages-artifact@v5.0.0`, `deploy-pages@v5.0.1`
+  - Node from `.nvmrc` (26 — the newest line; `engines` says the same), `npm ci`, `npm run build`, artifact from `dist/`
   - Enable at: Settings → Pages → Source → GitHub Actions
   - **`base` is `./`** — a relative base, so the same build works both at a custom-domain root (`guycatz.com/`) and under project pages (`xarlos89.github.io/guy-catz-dot-com/`). This is why the `@font-face` `url()`s are `../fonts/…` (the CSS lands in `/assets/`) and the `index.html` preloads are `./fonts/…`. **Absolute `/…` asset paths silently 404 under the sub-path** — keep new references relative. The photography did exactly this and 404'd on the `github.io` URL; everything in `public/` now goes through `asset()` / `responsivePhoto()` in `src/images.js`, which emit `./images/…`. Note `import.meta.env.BASE_URL` is **not** the fix — Vite resolves it to `/` for a relative base
   - `configure-pages` runs with `enablement: true`, so the first successful run switches Pages on itself. If it lacks permission, enable it by hand: Settings → Pages → Source → GitHub Actions
